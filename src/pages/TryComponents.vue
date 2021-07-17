@@ -3,6 +3,9 @@
     <Button small>Max</Button>
   </TextInput>
   <TextInput label="enter password" type="password" />
+  <TextInput v-model="inputText" label="I'm Disabled" type="Text" disabled>
+    <template #prepend><div class="font-medium">My_Wallet</div></template>
+  </TextInput>
   <div class="row">
     <TextInput type="Text" inline label="With Icon" right-label="I'm right">
       <template #prepend>
@@ -12,8 +15,17 @@
         <Icon name="stack" />
       </template>
     </TextInput>
-    <TextInput label="With Icon" type="Text" inline>
-      <Icon name="eye" />
+    <TextInput
+      v-model="inputText"
+      label="I'm Inline"
+      right-label="Readonly"
+      type="Text"
+      inline
+      readonly
+    >
+      <template #append>
+        <Icon name="eye" />
+      </template>
     </TextInput>
   </div>
   <div>
@@ -42,7 +54,9 @@ import {ref, defineComponent} from 'vue';
 export default defineComponent({
   name: 'TryComponents',
   setup: () => {
-    //
+    const inputText = ref<string>('initial text');
+
+    return {inputText};
   },
 });
 </script>

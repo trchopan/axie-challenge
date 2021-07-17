@@ -1,5 +1,12 @@
 <template>
-  <div class="input-container" :class="{'input-inline': inline}">
+  <div
+    class="input-container"
+    :class="{
+      'input-inline': inline,
+      'input-readonly': readonly,
+      'input-disabled': disabled,
+    }"
+  >
     <div v-if="label || rightLabel" class="input-label">
       <label v-if="label" :for="`simple-input-${myId}`">
         {{ label }}
@@ -17,7 +24,12 @@
       <div class="input-prepend-slot">
         <slot name="prepend"></slot>
       </div>
-      <input :id="`simple-input-${myId}`" :type="type" />
+      <input
+        :id="`simple-input-${myId}`"
+        :type="type"
+        v-model="localValue"
+        :disabled="disabled || readonly"
+      />
       <div class="input-append-slot">
         <slot name="append"></slot>
       </div>
@@ -26,22 +38,29 @@
 </template>
 
 <script lang="ts">
-import {ref, defineComponent} from 'vue';
+import {ref, defineComponent, watch, watchEffect} from 'vue';
 
 let myId = 0;
 
 export default defineComponent({
   name: 'TextInput',
   props: {
+    modelValue: {type: String, required: true},
     inline: {type: Boolean, required: false},
+    readonly: {type: Boolean, required: false},
+    disabled: {type: Boolean, required: false},
     label: {type: String, required: false},
     rightLabel: {type: String, required: false},
     type: {type: String, required: false},
     iconClick: {type: String, required: false},
   },
-  setup: () => {
+  setup: (props, {emit}) => {
     myId++;
-    return {myId};
+    const localValue = ref<string>(props.modelValue);
+
+    watchEffect(() => emit('update:modelValue', localValue.value));
+
+    return {myId, localValue};
   },
 });
 </script>
@@ -50,6 +69,12 @@ export default defineComponent({
 .input {
   &-inline {
     display: inline-block;
+  }
+  &-disabled {
+    .input-control {
+      background-color: #edf1f7;
+      opacity: 0.368;
+    }
   }
   &-label {
     font-style: normal;

@@ -2,7 +2,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-size: 16px;
+  font-size: 14px;
 }
 
 #app {
@@ -41,4 +41,8 @@ input:focus {
 
 .spacer {
   flex: 1;
+}
+
+.font-medium {
+  font-weight: 500;
 }
