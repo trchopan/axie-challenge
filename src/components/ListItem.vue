@@ -61,6 +61,7 @@ export default defineComponent({
     background: #f7f9fc;
     border-radius: 8px;
     transition: all 100ms;
+    padding: 1rem;
   }
   &-clickable {
     cursor: pointer;
@@ -76,13 +77,14 @@ export default defineComponent({
     }
   }
   &-icon {
-    padding: 1rem;
     display: flex;
     align-items: center;
+    margin-right: 1rem;
   }
   &-body {
     display: flex;
     align-items: center;
+    flex: 1;
   }
   &-title {
     font-style: normal;

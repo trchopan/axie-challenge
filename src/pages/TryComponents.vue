@@ -62,6 +62,44 @@
       subtitle="10,531,972 VND"
       tile
     ></ListItem>
+    <ListItem append-icon="repeat">
+      <div class="text-center">
+        Sit aliquam voluptates
+      </div>
+    </ListItem>
+  </div>
+  <div>
+    <Card primary class="px-5">
+      <div>
+        Ipsum esse sequi eligendi sequi recusandae? Dolor voluptate deleniti
+        ipsum
+      </div>
+      <hr />
+      <div>Adipisicing nihil ipsam amet molestiae.</div>
+    </Card>
+  </div>
+  <div>
+    <Button @click="showModal = true">Show Modal</Button>
+    <Modal v-model="showModal">
+      <Card class="px-5">
+        <h3>Modal Header</h3>
+        <p>
+          Elit impedit voluptate eveniet optio quasi, illo Libero officiis
+          accusantium voluptate blanditiis sed corporis Quaerat ipsum quasi
+          necessitatibus vitae provident Nulla molestias repellendus incidunt
+          autem sapiente? Eos quis harum labore fugit iure. Eligendi nulla iusto
+          natus fugiat atque reprehenderit Iste totam nulla debitis quaerat
+          harum praesentium harum. Quas adipisci id iusto provident perferendis
+          aliquam. Laboriosam fuga nemo consectetur saepe voluptate sapiente.
+          Dolores aut quas cupiditate possimus dignissimos at aperiam, odit
+          Nobis soluta optio perferendis illo facilis saepe Aut perferendis
+          tempore ullam omnis rem, impedit? Quasi voluptate praesentium ipsum
+          modi deserunt Quo mollitia laudantium sapiente rem officiis? Sed
+          tempora quaerat ratione
+        </p>
+        <Button @click="showModal = false">Close</Button>
+      </Card>
+    </Modal>
   </div>
 </template>
 
@@ -71,6 +109,7 @@ import {ref, defineComponent} from 'vue';
 export default defineComponent({
   name: 'TryComponents',
   setup: () => {
+    const showModal = ref<boolean>(false);
     const inputText = ref<string>('initial text');
 
     const onClickList = () => {
@@ -81,7 +120,7 @@ export default defineComponent({
       console.log('test onClickButton');
     };
 
-    return {inputText, onClickList, onClickButton};
+    return {inputText, onClickList, onClickButton, showModal};
   },
 });
 </script>
