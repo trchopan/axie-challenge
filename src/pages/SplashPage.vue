@@ -25,7 +25,9 @@ export default defineComponent({
       if (!user) {
         router.replace('/unlock');
       } else {
-        router.replace(entryPath.value);
+        const p = entryPath.value;
+        console.log('>>>', p);
+        router.replace(!p || p === '/' ? '/home' : p);
       }
     });
 

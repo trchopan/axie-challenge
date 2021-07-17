@@ -1,0 +1,36 @@
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-size: 16px;
+}
+
+#app {
+  font-family: Poppins;
+}
+
+button,
+input,
+select,
+textarea {
+  background-color: transparent;
+  border-style: none;
+}
+
+[role='button'],
+[type='button'],
+[type='reset'],
+[type='submit'],
+button {
+  cursor: pointer;
+  color: inherit;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
