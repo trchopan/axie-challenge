@@ -3,6 +3,9 @@ import {RouteRecordRaw} from 'vue-router';
 import SplashPage from './pages/SplashPage.vue';
 import Unlock from './pages/Unlock.vue';
 import Home from './pages/Home.vue';
+import TryComponents from './pages/TryComponents.vue';
+
+const isDev = import.meta.env.NODE_ENV !== 'production';
 
 const routes: RouteRecordRaw[] = [
   //
@@ -12,9 +15,13 @@ const routes: RouteRecordRaw[] = [
   {path: '/.*', redirect: '/home'},
 ];
 
+const devRoutes: RouteRecordRaw[] = [
+  {path: '/try-components', component: TryComponents},
+];
+
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes: (isDev ? devRoutes : []).concat(routes),
 });
 
 export default router;
