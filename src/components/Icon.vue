@@ -40,6 +40,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .left {
-  margin-right: 5px;
+  margin-right: 14px;
 }
 </style>

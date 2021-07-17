@@ -50,7 +50,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .button {
   background: #f7f9fc;
-  color: #57627b;
+  color: #151a30;
   border-radius: 8px;
   height: 2.25rem;
 
@@ -84,9 +84,11 @@ export default defineComponent({
   }
 
   &-block {
+    height: 40px;
     display: flex;
     flex: 1 0 auto;
     min-width: 100% !important;
+    color: #1273ea;
   }
 
   &-primary {
@@ -95,6 +97,7 @@ export default defineComponent({
   }
 
   &-small {
+    color: #57627b;
     height: 20px;
     padding: 0 8px;
   }

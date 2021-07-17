@@ -47,6 +47,7 @@
     <Icon name="circle-fill" size="8px" left />
     Ronin Wallet
   </Button>
+  <Button block>Cancel</Button>
   <Button primary block>Primary</Button>
   <div>
     <ListItem
