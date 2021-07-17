@@ -92,3 +92,10 @@ $sides: (top, bottom, left, right); // Leave this variable alone
     padding-bottom: #{$space}rem !important;
   }
 }
+
+.clickable {
+  cursor: pointer;
+}
+.clicky {
+  opacity: 0.5;
+}

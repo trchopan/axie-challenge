@@ -2,25 +2,27 @@
   <div
     class="list-item-container"
     :class="{
-      'list-item-clickable': clickable,
-      'list-item-clicky': clicky,
+      clickable,
+      clicky,
       'list-item-tile': tile,
     }"
     @click="onClick"
   >
-    <div v-if="prependIcon" class="list-item-icon">
-      <Icon :name="prependIcon" size="32px" />
-    </div>
-    <div class="list-item-body" :class="{'list-item-body-center': center }">
-      <slot>
-        <div class="list-item-content">
-          <div class="list-item-title">{{ title }}</div>
-          <div class="list-item-subtitle">{{ subtitle }}</div>
-        </div>
-      </slot>
-    </div>
-    <div v-if="appendIcon" class="list-item-icon">
-      <Icon :name="appendIcon" size="32px" />
+    <div class="list-item-wrapper">
+      <div v-if="prependIcon" class="list-item-icon">
+        <Icon :name="prependIcon" size="32px" />
+      </div>
+      <div class="list-item-body">
+        <slot>
+          <div class="list-item-content">
+            <div class="list-item-title">{{ title }}</div>
+            <div class="list-item-subtitle">{{ subtitle }}</div>
+          </div>
+        </slot>
+      </div>
+      <div v-if="appendIcon" class="list-item-icon">
+        <Icon :name="appendIcon" size="32px" />
+      </div>
     </div>
   </div>
 </template>
@@ -57,23 +59,23 @@ export default defineComponent({
 <style lang="scss" scoped>
 .list-item {
   &-container {
-    display: flex;
     background: #f7f9fc;
     border-radius: 8px;
     transition: all 100ms;
+    :hover {
+      background: #edf1f7;
+      border-radius: 8px;
+    }
+  }
+  &-wrapper {
+    display: flex;
     padding: 1rem;
-  }
-  &-clickable {
-    cursor: pointer;
-  }
-  &-clicky {
-    opacity: 0.5;
   }
   &-tile {
     border-radius: 0px;
     background: #ffffff;
-    :hover > & {
-      background: #edf1f7;
+    :hover {
+      border-radius: 0px;
     }
   }
   &-icon {

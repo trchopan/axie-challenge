@@ -3,8 +3,8 @@
     @click="onClick"
     class="button"
     :class="{
-      'button-clickable': clickable,
-      'button-clicky': clicky,
+      clickable,
+      clicky,
       'button-block': block,
       'button-small': small,
       'button-primary': primary,
@@ -66,12 +66,6 @@ export default defineComponent({
   transition: all 100ms;
   padding: 0 1.25rem;
 
-  &-clickable {
-    cursor: pointer;
-  }
-  &-clicky {
-    opacity: 0.5;
-  }
   &-label {
     align-items: center;
     display: flex;
@@ -80,7 +74,6 @@ export default defineComponent({
     line-height: normal;
     position: relative;
   }
-
   &-block {
     height: 40px;
     display: flex;
@@ -88,23 +81,19 @@ export default defineComponent({
     min-width: 100% !important;
     color: #1273ea;
   }
-
   &-primary {
     background: linear-gradient(256.28deg, #1c94f4 0%, #1273ea 100%);
     color: #ffffff;
   }
-
   &-small {
     color: #57627b;
     height: 20px;
     padding: 0 8px;
   }
-
   &-large-icon {
     height: 48px;
     width: 48px;
   }
-
   &-icon {
     height: 32px;
     width: 32px;

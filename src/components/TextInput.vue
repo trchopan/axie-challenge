@@ -77,6 +77,8 @@ export default defineComponent({
     }
   }
   &-label {
+    display: flex;
+    margin-bottom: 4px;
     font-style: normal;
     font-weight: bold;
     font-size: 10px;
@@ -84,7 +86,6 @@ export default defineComponent({
     text-transform: uppercase;
     color: #57627b;
     padding: 0 0.5rem;
-    display: flex;
   }
   &-right-label {
     color: #151a30;
