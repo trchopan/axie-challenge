@@ -39,7 +39,6 @@ export default defineComponent({
 
     const onClick = async () => {
       if (!clickable.value) return;
-      emit('click');
       clicky.value = true;
       setTimeout(() => (clicky.value = false), 100);
     };
