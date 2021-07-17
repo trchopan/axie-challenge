@@ -1,13 +1,15 @@
 <template>
   <TextInput label="Texxxxtttt" type="Text">
-    <Button small>Max</Button>
+    <template #append>
+      <Button small @click="onClickButton">Max</Button>
+    </template>
   </TextInput>
   <TextInput label="enter password" type="password" />
   <TextInput v-model="inputText" label="I'm Disabled" type="Text" disabled>
     <template #prepend><div class="font-medium">My_Wallet</div></template>
   </TextInput>
   <div class="row">
-    <TextInput type="Text" inline label="With Icon" right-label="I'm right">
+    <TextInput model-value="EUR" type="Text" inline label="With Icon">
       <template #prepend>
         <Icon name="euro" />
       </template>
@@ -34,7 +36,7 @@
     <Icon name="plane-fill" />
     <Icon name="repeat" />
   </div>
-  <Button large-icon>
+  <Button large-icon @click="onClickButton">
     <Icon name="credit-card-fill" size="24px" />
   </Button>
   <Button icon>
@@ -46,6 +48,20 @@
     Ronin Wallet
   </Button>
   <Button primary block>Primary</Button>
+  <div>
+    <ListItem
+      prepend-icon="euro"
+      title="50 EUR"
+      subtitle="1,531,972 VND"
+    ></ListItem>
+    <ListItem
+      @click="onClickList"
+      prepend-icon="usd"
+      title="5000 USD"
+      subtitle="10,531,972 VND"
+      tile
+    ></ListItem>
+  </div>
 </template>
 
 <script lang="ts">
@@ -56,7 +72,15 @@ export default defineComponent({
   setup: () => {
     const inputText = ref<string>('initial text');
 
-    return {inputText};
+    const onClickList = () => {
+      console.log('test onClickList');
+    };
+
+    const onClickButton = () => {
+      console.log('test onClickButton');
+    };
+
+    return {inputText, onClickList, onClickButton};
   },
 });
 </script>

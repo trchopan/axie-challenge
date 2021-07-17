@@ -109,8 +109,8 @@ export default defineComponent({
       border-style: none;
       font-style: normal;
       font-weight: normal;
-      font-size: 14px;
-      line-height: 20px;
+      font-size: 1rem;
+      line-height: 1.42rem;
       color: #151a30;
     }
   }

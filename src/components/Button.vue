@@ -3,6 +3,7 @@
     @click="onClick"
     class="button"
     :class="{
+      'button-clickable': clickable,
       'button-clicky': clicky,
       'button-block': block,
       'button-small': small,
@@ -18,7 +19,8 @@
 </template>
 
 <script lang="ts">
-import {ref, defineComponent, nextTick} from 'vue';
+import {isFunction} from 'lodash';
+import {ref, defineComponent, nextTick, computed} from 'vue';
 
 export default defineComponent({
   name: 'Button',
@@ -29,15 +31,18 @@ export default defineComponent({
     largeIcon: {type: Boolean, required: false},
     icon: {type: Boolean, required: false},
   },
-  setup: (_, {emit}) => {
+  setup: (_, {emit, attrs}) => {
     const clicky = ref<boolean>(false);
+    const clickable = computed(() => isFunction(attrs.onClick));
+
     const onClick = async () => {
+      if (!clickable.value) return;
       clicky.value = true;
       setTimeout(() => (clicky.value = false), 100);
       emit('click');
     };
 
-    return {onClick, clicky};
+    return {onClick, clicky, clickable};
   },
 });
 </script>
@@ -57,18 +62,17 @@ export default defineComponent({
   outline: 0;
   position: relative;
   text-decoration: none;
-  transition-duration: 0.28s;
-  transition-property: box-shadow, transform, opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   vertical-align: middle;
   white-space: nowrap;
   transition: all 100ms;
   padding: 0 1.25rem;
 
+  &-clickable {
+    cursor: pointer;
+  }
   &-clicky {
     opacity: 0.5;
   }
-
   &-label {
     align-items: center;
     color: inherit;
@@ -77,8 +81,6 @@ export default defineComponent({
     justify-content: inherit;
     line-height: normal;
     position: relative;
-    transition: inherit;
-    transition-property: opacity;
   }
 
   &-block {
