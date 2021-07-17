@@ -45,7 +45,7 @@ let myId = 0;
 export default defineComponent({
   name: 'TextInput',
   props: {
-    modelValue: {type: String, required: true},
+    modelValue: {type: String, required: false},
     inline: {type: Boolean, required: false},
     readonly: {type: Boolean, required: false},
     disabled: {type: Boolean, required: false},
@@ -56,7 +56,7 @@ export default defineComponent({
   },
   setup: (props, {emit}) => {
     myId++;
-    const localValue = ref<string>(props.modelValue);
+    const localValue = ref<string>(props.modelValue || '');
 
     watchEffect(() => emit('update:modelValue', localValue.value));
 

@@ -1,11 +1,12 @@
 <template>
   <button
-    @click="onClick"
+    @click.prevent="onClick"
     class="button"
     :class="{
       clickable,
       clicky,
       'button-block': block,
+      'button-flat': flat,
       'button-small': small,
       'button-primary': primary,
       'button-large-icon': largeIcon,
@@ -26,6 +27,7 @@ export default defineComponent({
   name: 'Button',
   props: {
     block: {type: Boolean, required: false},
+    flat: {type: Boolean, required: false},
     small: {type: Boolean, required: false},
     primary: {type: Boolean, required: false},
     largeIcon: {type: Boolean, required: false},
@@ -37,9 +39,9 @@ export default defineComponent({
 
     const onClick = async () => {
       if (!clickable.value) return;
+      emit('click');
       clicky.value = true;
       setTimeout(() => (clicky.value = false), 100);
-      emit('click');
     };
 
     return {onClick, clicky, clickable};
@@ -80,6 +82,9 @@ export default defineComponent({
     flex: 1 0 auto;
     min-width: 100% !important;
     color: #1273ea;
+  }
+  &-flat {
+    background: inherit;
   }
   &-primary {
     background: linear-gradient(256.28deg, #1c94f4 0%, #1273ea 100%);
