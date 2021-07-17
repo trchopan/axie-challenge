@@ -1,12 +1,21 @@
-import { createStore } from 'vuex'
+import {createStore} from 'vuex';
+import {User} from './domain/user';
 
-export default createStore({
-    state: {
-    },
-    mutations: {
-    },
-    actions: {
-    },
-    modules: {
-    }
-})
+interface State {
+  entryPath: string;
+  user: Maybe<User>;
+}
+
+const initState = (): State => ({
+  entryPath: '',
+  user: null,
+});
+
+const store = createStore({
+  state: initState(),
+  mutations: {},
+  actions: {},
+  modules: {},
+});
+
+export default store;
