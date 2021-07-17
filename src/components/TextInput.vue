@@ -1,12 +1,25 @@
 <template>
   <div class="input-container" :class="{'input-inline': inline}">
-    <label v-if="label" :for="`simple-input-${myId}`" class="input-label">
-      {{ label }}
-    </label>
+    <div v-if="label || rightLabel" class="input-label">
+      <label v-if="label" :for="`simple-input-${myId}`">
+        {{ label }}
+      </label>
+      <div class="spacer"></div>
+      <label
+        v-if="rightLabel"
+        :for="`simple-input-${myId}`"
+        class="input-right-label"
+      >
+        {{ rightLabel }}
+      </label>
+    </div>
     <div class="input-control">
+      <div class="input-prepend-slot">
+        <slot name="prepend"></slot>
+      </div>
       <input :id="`simple-input-${myId}`" :type="type" />
-      <div class="input-slot">
-        <slot></slot>
+      <div class="input-append-slot">
+        <slot name="append"></slot>
       </div>
     </div>
   </div>
@@ -22,6 +35,7 @@ export default defineComponent({
   props: {
     inline: {type: Boolean, required: false},
     label: {type: String, required: false},
+    rightLabel: {type: String, required: false},
     type: {type: String, required: false},
     iconClick: {type: String, required: false},
   },
@@ -45,6 +59,10 @@ export default defineComponent({
     text-transform: uppercase;
     color: #57627b;
     padding: 0 0.5rem;
+    display: flex;
+  }
+  &-right-label {
+    color: #151a30;
   }
   &-control {
     background: #ffffff;
@@ -71,10 +89,17 @@ export default defineComponent({
       color: #151a30;
     }
   }
-  &-slot {
-    padding-left: 5px;
+  &-prepend-slot,
+  &-append-slot {
     display: flex;
     justify-content: center;
+  }
+  &-prepend-slot {
+    padding-right: 5px;
+  }
+
+  &-append-slot {
+    padding-left: 5px;
   }
 }
 </style>

@@ -3,9 +3,14 @@
     <Button small>Max</Button>
   </TextInput>
   <TextInput label="enter password" type="password" />
-  <div>
-    <TextInput label="With Icon" type="Text" inline>
-      <Icon name="stack" />
+  <div class="row">
+    <TextInput type="Text" inline label="With Icon" right-label="I'm right">
+      <template #prepend>
+        <Icon name="euro" />
+      </template>
+      <template #append>
+        <Icon name="stack" />
+      </template>
     </TextInput>
     <TextInput label="With Icon" type="Text" inline>
       <Icon name="eye" />
