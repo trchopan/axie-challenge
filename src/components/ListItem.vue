@@ -8,16 +8,19 @@
     }"
     @click="onClick"
   >
-    <div v-if="prependIcon" class="list-item-prepend">
+    <div v-if="prependIcon" class="list-item-icon">
       <Icon :name="prependIcon" size="32px" />
     </div>
-    <div class="list-item-body">
+    <div class="list-item-body" :class="{'list-item-body-center': center }">
       <slot>
         <div class="list-item-content">
           <div class="list-item-title">{{ title }}</div>
           <div class="list-item-subtitle">{{ subtitle }}</div>
         </div>
       </slot>
+    </div>
+    <div v-if="appendIcon" class="list-item-icon">
+      <Icon :name="appendIcon" size="32px" />
     </div>
   </div>
 </template>
@@ -30,6 +33,7 @@ export default defineComponent({
   name: 'ListItem',
   props: {
     prependIcon: {type: String, required: false},
+    appendIcon: {type: String, required: false},
     tile: {type: Boolean, required: false},
     title: {type: String, required: false},
     subtitle: {type: String, required: false},
@@ -71,7 +75,7 @@ export default defineComponent({
       background: #edf1f7;
     }
   }
-  &-prepend {
+  &-icon {
     padding: 1rem;
     display: flex;
     align-items: center;
@@ -84,7 +88,6 @@ export default defineComponent({
     font-style: normal;
     font-weight: 600;
     line-height: 1.42rem;
-    color: #151a30;
     padding-bottom: 4px;
   }
   &-subtitle {

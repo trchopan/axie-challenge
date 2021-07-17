@@ -14,10 +14,13 @@ export default defineComponent({
   },
   setup: props => {
     const iconMap = {
+      'chevron-left': 'chevron-left.svg',
       'circle-fill': 'circle-fill.svg',
-      eye: 'eye-icon.svg',
+      'close': 'close.svg',
+      'copy': 'copy.svg',
       'credit-card-fill': 'credit-card-fill.svg',
       euro: 'euro.png',
+      eye: 'eye-icon.svg',
       'person-fill': 'person-fill.svg',
       'plane-fill': 'plane-fill.svg',
       repeat: 'repeat.svg',
@@ -25,7 +28,7 @@ export default defineComponent({
       usd: 'usd.png',
       yen: 'yen.png',
     } as {[key: string]: string};
-    const imgSrc = new URL(`../assets/${iconMap[props.name]}`, import.meta.url)
+    const imgSrc = new URL(`../assets/icons/${iconMap[props.name]}`, import.meta.url)
       .href;
 
     const size = props.size || '24px';

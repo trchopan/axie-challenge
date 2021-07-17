@@ -50,7 +50,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .button {
   background: #f7f9fc;
-  color: #151a30;
   border-radius: 8px;
   height: 2.25rem;
 
@@ -75,7 +74,6 @@ export default defineComponent({
   }
   &-label {
     align-items: center;
-    color: inherit;
     display: flex;
     flex: 1 0 auto;
     justify-content: inherit;

@@ -111,7 +111,6 @@ export default defineComponent({
       font-weight: normal;
       font-size: 1rem;
       line-height: 1.42rem;
-      color: #151a30;
     }
   }
   &-prepend-slot,
