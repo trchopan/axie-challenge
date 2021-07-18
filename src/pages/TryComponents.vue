@@ -10,6 +10,10 @@
       append-icon="close"
       @click:append-icon="onClickTopbarIcon"
     />
+    <!-- <Loading /> -->
+    <!-- <Loading color="red" /> -->
+    <TextInput label="TEXXXXTTTT" right-label="naniii kore" placeholder="Place holderrrrr" />
+    <TextInput label="TEXXXXTTTT" right-label="naniii kore" placeholder="Place holderrrrr" inline />
     <TextInput label="Texxxxtttt" type="Text">
       <template #append>
         <Button small @click="onClickButton">Max</Button>
@@ -48,12 +52,11 @@
       <Icon name="repeat" />
     </div>
     <div class="flex">
-      <Button @click="onClickButton" large-icon="credit-card-fill">
-      </Button>
+      <Button @click="onClickButton" large-icon="credit-card-fill"> </Button>
       <Button icon="person-fill"></Button>
       <Button primary @click="onClickButton">Primary</Button>
-      <Button primary :disabled="true" :loading="true">Disabled</Button>
-      <Button :loading="true">Loading</Button>
+      <!-- <Button primary :disabled="true" :loading="true">Disabled</Button> -->
+      <!-- <Button :loading="true">Loading</Button> -->
       <Button>
         <Icon name="circle-fill" size="8px" left />
         Ronin Wallet

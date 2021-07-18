@@ -1,38 +1,40 @@
 <template>
   <div
-    class="input-container"
+    class="mb-3"
     :class="{
-      'input-inline': inline,
-      'input-readonly': readonly,
-      'input-disabled': disabled,
+      'inline-block': inline,
+      'opacity-50': disabled,
     }"
   >
-    <div v-if="label || rightLabel" class="input-label">
-      <label v-if="label" :for="`simple-input-${myId}`">
+    <div
+      v-if="label || rightLabel"
+      class="flex mb-1 px-2 font-bold text-xs
+      text-gray-600"
+    >
+      <label v-if="label" :for="`input-${myId}`" class="flex-grow">
         {{ label }}
       </label>
-      <div class="spacer"></div>
       <label
         v-if="rightLabel"
-        :for="`simple-input-${myId}`"
-        class="input-right-label"
+        :for="`input-${myId}`"
+        class="flex-grow text-right"
       >
         {{ rightLabel }}
       </label>
     </div>
-    <div class="input-control">
-      <div class="input-prepend-slot">
-        <slot name="prepend"></slot>
-      </div>
+    <div
+      class="flex rounded-lg border border-gray-300 items-center h-12 px-5 space-x-2"
+    >
+      <slot name="prepend"></slot>
       <input
-        :id="`simple-input-${myId}`"
+        :id="`input-${myId}`"
         :type="type"
         v-model="localValue"
         :disabled="disabled || readonly"
+        :placeholder="placeholder"
+        class="placeholder-gray-400 text-gray-600 bg-white outline-none focus:outline-none flex-auto"
       />
-      <div class="input-append-slot">
-        <slot name="append"></slot>
-      </div>
+      <slot name="append"></slot>
     </div>
   </div>
 </template>
@@ -46,6 +48,7 @@ export default defineComponent({
   name: 'TextInput',
   props: {
     modelValue: {type: String, required: false},
+    placeholder: {type: String, required: false},
     inline: {type: Boolean, required: false},
     readonly: {type: Boolean, required: false},
     disabled: {type: Boolean, required: false},
@@ -59,72 +62,11 @@ export default defineComponent({
     const localValue = ref<string>(props.modelValue || '');
 
     watchEffect(() => emit('update:modelValue', localValue.value));
+    const onFocus = () => {
+      console.log('focus', Math.random());
+    };
 
-    return {myId, localValue};
+    return {myId, localValue, onFocus};
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.input {
-  &-inline {
-    display: inline-block;
-  }
-  &-disabled {
-    .input-control {
-      background-color: #edf1f7;
-      opacity: 0.368;
-    }
-  }
-  &-label {
-    display: flex;
-    margin-bottom: 4px;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 10px;
-    line-height: 16px;
-    text-transform: uppercase;
-    color: #57627b;
-    padding: 0 0.5rem;
-  }
-  &-right-label {
-    color: #151a30;
-  }
-  &-control {
-    background: #ffffff;
-    border: 1px solid #c5cee0;
-    box-sizing: border-box;
-    border-radius: 8px;
-    padding: 0 1rem;
-    display: flex;
-    align-items: center;
-
-    input {
-      flex: 1 1 auto;
-      padding: 10px 0;
-      max-width: 100%;
-      min-width: 0;
-      width: 100%;
-
-      border-radius: 0;
-      border-style: none;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 1rem;
-      line-height: 1.42rem;
-    }
-  }
-  &-prepend-slot,
-  &-append-slot {
-    display: flex;
-    justify-content: center;
-  }
-  &-prepend-slot {
-    padding-right: 5px;
-  }
-
-  &-append-slot {
-    padding-left: 5px;
-  }
-}
-</style>
