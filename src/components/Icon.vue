@@ -1,5 +1,5 @@
 <template>
-  <img :src="imgSrc" :style="style" :class="{left}" />
+  <img :src="imgSrc" :style="style" :class="{'mr-4': left}" />
 </template>
 
 <script lang="ts">
@@ -16,8 +16,8 @@ export default defineComponent({
     const iconMap = {
       'chevron-left': 'chevron-left.svg',
       'circle-fill': 'circle-fill.svg',
-      'close': 'close.svg',
-      'copy': 'copy.svg',
+      close: 'close.svg',
+      copy: 'copy.svg',
       'credit-card-fill': 'credit-card-fill.svg',
       euro: 'euro.png',
       eye: 'eye-icon.svg',
@@ -28,8 +28,10 @@ export default defineComponent({
       usd: 'usd.png',
       yen: 'yen.png',
     } as {[key: string]: string};
-    const imgSrc = new URL(`../assets/icons/${iconMap[props.name]}`, import.meta.url)
-      .href;
+    const imgSrc = new URL(
+      `../assets/icons/${iconMap[props.name]}`,
+      import.meta.url
+    ).href;
 
     const size = props.size || '24px';
     const style = {
@@ -40,9 +42,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.left {
-  margin-right: 14px;
-}
-</style>
