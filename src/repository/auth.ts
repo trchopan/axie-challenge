@@ -26,6 +26,11 @@ export class AuthRepository {
     );
   }
 
+  getCurrentUser() {
+    if (!this.auth.currentUser) return null;
+    return new User().fromFirebase(this.auth.currentUser);
+  }
+
   async signInEmail(email: string, password: string) {
     try {
       const credentials = await this.auth.signInWithEmailAndPassword(

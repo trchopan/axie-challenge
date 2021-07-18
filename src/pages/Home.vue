@@ -1,6 +1,5 @@
 <template>
   <div>Home</div>
-  <pre>{{ user }}</pre>
   <div v-if="authLoading">LOADING...</div>
   <button @click="signOut">Sign Out</button>
 </template>
@@ -22,7 +21,6 @@ export default defineComponent({
     };
 
     return {
-      user: auth.user,
       authLoading: auth.loading,
       signOut,
     };

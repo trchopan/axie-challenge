@@ -3,7 +3,7 @@
   <pre v-if="authError">{{ authError }}</pre>
   <div v-if="authLoading">LOADING...</div>
   <form v-else @submit.prevent="signIn">
-    <input v-model="password" type="password" />
+    <TextInput v-model="password" type="password" />
     <button type="submit">Sign In</button>
   </form>
 </template>
@@ -19,6 +19,10 @@ export default defineComponent({
     const router = useRouter();
     const auth = useAuth();
     const password = ref<string>('');
+
+    if (auth.getUser() !== null) {
+      router.replace('/');
+    }
 
     const signIn = async () => {
       const user = await auth.signInEmail({
