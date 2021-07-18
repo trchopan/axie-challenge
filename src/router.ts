@@ -5,7 +5,7 @@ import {
 } from 'vue-router';
 import {RouteRecordRaw} from 'vue-router';
 import Unlock from './pages/Unlock.vue';
-import Home from './pages/Home.vue';
+import Main from './pages/Main.vue';
 import TryComponents from './pages/TryComponents.vue';
 import {User} from './domain';
 import {authRepo} from './repository';
@@ -14,7 +14,7 @@ const isDev = import.meta.env.NODE_ENV !== 'production';
 
 const routes: RouteRecordRaw[] = [
   //
-  {path: '/', component: Home, meta: {requireAuth: true}},
+  {path: '/', component: Main, meta: {requireAuth: true}},
   {path: '/unlock', component: Unlock},
   {path: '/:notFound(.*)', redirect: '/'},
 ];
