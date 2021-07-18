@@ -2,7 +2,7 @@
   <button
     class="inline-flex justify-center items-center px-4 py-2 border
     border-transparent text-base leading-6 font-medium rounded-md transition
-    ease-in-out duration-150 bg-grey h-12"
+    ease-in-out duration-150 bg-gray-100 h-12"
     @click="onClick"
     :class="{
       'cursor-not-allowed': disabled,
@@ -28,7 +28,7 @@
     <template v-else>
       <Loading v-if="loading" :color="primary ? 'white' : 'blue'" />
       <span
-        class="button-label transition duration-150 ease-in-out"
+        class="flex items-center transition duration-150 ease-in-out"
         :class="{
           'opacity-30': disabled,
           'transform scale-125': clicky,
@@ -72,14 +72,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .button {
-  &-label {
-    align-items: center;
-    display: flex;
-    flex: 1 0 auto;
-    justify-content: inherit;
-    line-height: normal;
-    position: relative;
-  }
   &-flat {
     background: inherit;
   }
