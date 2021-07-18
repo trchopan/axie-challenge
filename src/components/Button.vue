@@ -1,21 +1,62 @@
 <template>
   <button
-    @click.prevent="onClick"
-    class="button"
+    class="inline-flex justify-center items-center px-4 py-2 border
+    border-transparent text-base leading-6 font-medium rounded-md transition
+    ease-in-out duration-150 bg-grey h-12"
+    @click="onClick"
     :class="{
-      clickable,
-      clicky,
-      'button-block': block,
+      'cursor-not-allowed': disabled,
+      'button-primary': primary,
       'button-flat': flat,
       'button-small': small,
-      'button-primary': primary,
-      'button-large-icon': largeIcon,
       'button-icon': icon,
+      'button-large-icon': largeIcon,
     }"
+    :disabled="disabled"
   >
-    <span class="button-label">
-      <slot></slot>
-    </span>
+    <div
+      v-if="icon || largeIcon"
+      class="transition duration-150 ease-in-out"
+      :class="{
+        'opacity-30': disabled,
+        'transform scale-125': clicky,
+      }"
+    >
+      <Icon v-if="icon" :name="icon" size="24px" />
+      <Icon v-if="largeIcon" :name="largeIcon" size="32px" />
+    </div>
+    <template v-else>
+      <svg
+        v-if="loading"
+        class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="blue"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="blue"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+      <span
+        class="button-label transition duration-150 ease-in-out"
+        :class="{
+          'opacity-30': disabled,
+          'transform scale-125': clicky,
+        }"
+      >
+        <slot></slot>
+      </span>
+    </template>
   </button>
 </template>
 
@@ -26,14 +67,15 @@ import {ref, defineComponent, nextTick, computed} from 'vue';
 export default defineComponent({
   name: 'Button',
   props: {
-    block: {type: Boolean, required: false},
+    disabled: {type: Boolean, required: false},
+    loading: {type: Boolean, required: false},
     flat: {type: Boolean, required: false},
     small: {type: Boolean, required: false},
     primary: {type: Boolean, required: false},
-    largeIcon: {type: Boolean, required: false},
-    icon: {type: Boolean, required: false},
+    largeIcon: {type: String, required: false},
+    icon: {type: String, required: false},
   },
-  setup: (_, {emit, attrs}) => {
+  setup: (props, {emit, attrs}) => {
     const clicky = ref<boolean>(false);
     const clickable = computed(() => isFunction(attrs.onClick));
 
@@ -50,23 +92,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .button {
-  background: #f7f9fc;
-  border-radius: 8px;
-  height: 2.25rem;
-
-  align-items: center;
-  display: inline-flex;
-  flex: 0 0 auto;
-  font-weight: 600;
-  justify-content: center;
-  outline: 0;
-  position: relative;
-  text-decoration: none;
-  vertical-align: middle;
-  white-space: nowrap;
-  transition: all 100ms;
-  padding: 0 1.25rem;
-
+  svg {
+    circle {
+      stroke: blue;
+    }
+    path {
+      fill: blue;
+    }
+  }
   &-label {
     align-items: center;
     display: flex;
@@ -75,19 +108,20 @@ export default defineComponent({
     line-height: normal;
     position: relative;
   }
-  &-block {
-    height: 40px;
-    display: flex;
-    flex: 1 0 auto;
-    min-width: 100% !important;
-    color: #1273ea;
-  }
   &-flat {
     background: inherit;
   }
   &-primary {
     background: linear-gradient(256.28deg, #1c94f4 0%, #1273ea 100%);
     color: #ffffff;
+    svg {
+      circle {
+        stroke: white;
+      }
+      path {
+        fill: white;
+      }
+    }
   }
   &-small {
     color: #57627b;
@@ -95,10 +129,12 @@ export default defineComponent({
     padding: 0 8px;
   }
   &-large-icon {
+    padding: 0;
     height: 48px;
     width: 48px;
   }
   &-icon {
+    padding: 0;
     height: 32px;
     width: 32px;
   }

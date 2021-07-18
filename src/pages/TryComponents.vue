@@ -47,19 +47,20 @@
       <Icon name="plane-fill" />
       <Icon name="repeat" />
     </div>
-    <Button large-icon @click="onClickButton">
-      <Icon name="credit-card-fill" size="24px" />
-    </Button>
-    <Button icon>
-      <Icon name="person-fill" size="16px" />
-    </Button>
-    <Button primary>Primary</Button>
-    <Button>
-      <Icon name="circle-fill" size="8px" left />
-      Ronin Wallet
-    </Button>
-    <Button block>Cancel</Button>
-    <Button primary block>Primary</Button>
+    <div class="flex">
+      <Button @click="onClickButton" large-icon="credit-card-fill">
+      </Button>
+      <Button icon="person-fill"></Button>
+      <Button primary @click="onClickButton">Primary</Button>
+      <Button primary :disabled="true" :loading="true">Disabled</Button>
+      <Button :loading="true">Loading</Button>
+      <Button>
+        <Icon name="circle-fill" size="8px" left />
+        Ronin Wallet
+      </Button>
+      <Button>Cancel</Button>
+      <Button primary>Primary</Button>
+    </div>
     <div>
       <ListItem
         prepend-icon="euro"
