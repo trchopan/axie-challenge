@@ -10,10 +10,17 @@
       append-icon="close"
       @click:append-icon="onClickTopbarIcon"
     />
-    <!-- <Loading /> -->
-    <!-- <Loading color="red" /> -->
-    <TextInput label="TEXXXXTTTT" right-label="naniii kore" placeholder="Place holderrrrr" />
-    <TextInput label="TEXXXXTTTT" right-label="naniii kore" placeholder="Place holderrrrr" inline />
+    <TextInput
+      label="TEXXXXTTTT"
+      right-label="naniii kore"
+      placeholder="Place holderrrrr"
+    />
+    <TextInput
+      label="TEXXXXTTTT"
+      right-label="naniii kore"
+      placeholder="Place holderrrrr"
+      inline
+    />
     <TextInput label="Texxxxtttt" type="Text">
       <template #append>
         <Button small @click="onClickButton">Max</Button>
@@ -55,14 +62,12 @@
       <Button @click="onClickButton" large-icon="credit-card-fill"> </Button>
       <Button icon="person-fill"></Button>
       <Button primary @click="onClickButton">Primary</Button>
-      <!-- <Button primary :disabled="true" :loading="true">Disabled</Button> -->
-      <!-- <Button :loading="true">Loading</Button> -->
       <Button>
         <Icon name="circle-fill" size="8px" left />
         Ronin Wallet
       </Button>
       <Button>Cancel</Button>
-      <Button primary>Primary</Button>
+      <Button primary disabled>Primary</Button>
     </div>
     <div>
       <ListItem
@@ -116,6 +121,11 @@
         </Card>
       </Modal>
     </div>
+    <!-- NOTE: Comment out Loading because animation spin up CPU -->
+    <!-- <Loading /> -->
+    <!-- <Loading color="red" /> -->
+    <!-- <Button primary :disabled="true" :loading="true">Disabled</Button> -->
+    <!-- <Button :loading="true">Loading</Button> -->
   </div>
 </template>
 
