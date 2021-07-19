@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import {ref, defineComponent} from 'vue';
+import {ref, defineComponent, computed} from 'vue';
 
 export default defineComponent({
   name: 'Icon',
@@ -28,10 +28,10 @@ export default defineComponent({
       usd: 'usd.png',
       yen: 'yen.png',
     } as {[key: string]: string};
-    const imgSrc = new URL(
+    const imgSrc = computed(() => new URL(
       `../assets/icons/${iconMap[props.name]}`,
       import.meta.url
-    ).href;
+    ).href);
 
     const size = props.size || '24px';
     const style = {

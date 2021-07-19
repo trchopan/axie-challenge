@@ -50,14 +50,14 @@
 </template>
 
 <script lang="ts">
-import {ref, defineComponent, watch, watchEffect} from 'vue';
+import {ref, defineComponent, computed} from 'vue';
 
 let myId = 0;
 
 export default defineComponent({
   name: 'TextInput',
   props: {
-    modelValue: {type: String, required: false},
+    modelValue: {type: [String, Number], required: false},
     placeholder: {type: String, required: false},
     inline: {type: Boolean, required: false},
     readonly: {type: Boolean, required: false},
@@ -70,9 +70,19 @@ export default defineComponent({
   },
   setup: (props, {emit}) => {
     myId++;
-    const localValue = ref<string>(props.modelValue || '');
 
-    watchEffect(() => emit('update:modelValue', localValue.value));
+    const localValue = computed({
+      get: () => props.modelValue,
+      set: (val?: string | number) => {
+        let typedValue;
+        if (props.type === 'number') {
+          typedValue = parseFloat(String(val) || '0');
+        } else {
+          typedValue = val;
+        }
+        emit('update:modelValue', typedValue);
+      },
+    });
     const onFocus = () => {
       console.log('focus', Math.random());
     };

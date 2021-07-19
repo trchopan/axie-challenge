@@ -1,6 +1,6 @@
 <template>
   <button
-    class="inline-flex justify-center items-center px-4 py-2 border
+    class="button-base inline-flex justify-center items-center px-4 py-2 border
     border-transparent text-base leading-6 font-medium rounded-md transition
     ease-in-out duration-150 bg-gray-100 h-12"
     @click="onClick"
@@ -72,6 +72,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .button {
+  &-base {
+    color: #1273ea;
+  }
   &-flat {
     background: inherit;
   }
