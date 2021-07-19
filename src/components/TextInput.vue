@@ -33,7 +33,17 @@
         :disabled="disabled || readonly"
         :placeholder="placeholder"
         class="placeholder-gray-400 text-gray-600 bg-white outline-none focus:outline-none flex-auto"
+        v-if="!options"
       />
+      <select
+        v-else
+        v-model="localValue"
+        class="text-gray-600 bg-white outline-none focus:outline-none flex-auto border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
+      >
+        <option v-for="option in options" :key="option">
+          {{ option }}
+        </option>
+      </select>
       <slot name="append"></slot>
     </div>
   </div>
@@ -56,6 +66,7 @@ export default defineComponent({
     rightLabel: {type: String, required: false},
     type: {type: String, required: false},
     iconClick: {type: String, required: false},
+    options: {type: Array, required: false},
   },
   setup: (props, {emit}) => {
     myId++;

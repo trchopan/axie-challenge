@@ -27,6 +27,19 @@
       </template>
     </TextInput>
     <TextInput label="enter password" type="password" />
+    <TextInput
+      model-value="EUR"
+      :options="['USD', 'EUR']"
+      type="text"
+      label="ASSET"
+    >
+      <template #prepend>
+        <Icon name="euro" />
+      </template>
+      <template #append>
+        <Icon name="stack" />
+      </template>
+    </TextInput>
     <TextInput v-model="inputText" label="I'm Disabled" type="Text" disabled>
       <template #prepend><div class="font-medium">My_Wallet</div></template>
     </TextInput>
