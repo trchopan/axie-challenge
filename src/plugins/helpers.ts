@@ -38,6 +38,12 @@ const helpers = {
   },
 };
 
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $h: typeof helpers;
+  }
+}
+
 const plugin: Plugin = {
   install: (app, options) => {
     app.config.globalProperties.$h = helpers;

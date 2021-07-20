@@ -40,7 +40,7 @@
         v-model="localValue"
         class="text-gray-600 bg-white outline-none focus:outline-none flex-auto border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
       >
-        <option v-for="option in options" :key="option">
+        <option v-for="(option, index) in options" :key="`option-${index}`">
           {{ option }}
         </option>
       </select>

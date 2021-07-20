@@ -5,10 +5,12 @@ import {createRouter} from './router';
 import {registerComponents} from './components';
 import helpers from './plugins/helpers';
 
-const router = await createRouter();
-const app = createApp(App);
-app.use(router);
-app.use(helpers);
-registerComponents(app);
+(async () => {
+  const router = await createRouter();
+  const app = createApp(App);
+  app.use(router);
+  app.use(helpers);
+  registerComponents(app);
 
-app.mount('#app');
+  app.mount('#app');
+})();

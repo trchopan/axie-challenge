@@ -12,7 +12,7 @@
           v-for="asset in assets"
           :key="asset.symbol"
           :prepend-icon="asset.icon"
-          :title="`${$h.formatAmount(asset.avaiable)} ${asset.symbol}`"
+          :title="`${$h.formatAmount(asset.available)} ${asset.symbol}`"
           :subtitle="`${$h.formatAmount(asset.quote)} ${asset.quoteSymbol}`"
           @click="onAssetClick(asset.symbol)"
           tile
@@ -25,19 +25,23 @@
 <script lang="ts">
 import {AssetInfo} from '@/domain/asset';
 import {ref, defineComponent} from 'vue';
+import {AssetSelectionView} from './index.vue';
 
 export default defineComponent({
   name: 'SelectAssetsModal',
   props: {
     assets: {type: Array, required: true},
   },
-  setup: (_, {emit}) => {
+  setup: (props, {emit}) => {
     const onAssetClick = (symbol: string) => {
       emit('update:modelValue', false);
       emit('select', symbol);
     };
 
-    return {onAssetClick};
+    return {
+      onAssetClick,
+      assets: (props.assets as unknown) as AssetSelectionView[],
+    };
   },
 });
 </script>

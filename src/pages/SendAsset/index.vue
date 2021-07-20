@@ -40,11 +40,11 @@
     <TextInput
       v-model="amount"
       label="AMOUNT"
-      :right-label="`AVAILABLE: ${selectedAssetViewData.avaiable}`"
+      :right-label="`AVAILABLE: ${selectedAssetViewData.available}`"
       type="text"
     >
       <template #append>
-        <Button small @click="onClickMax(selectedAssetViewData.avaiable)">
+        <Button small @click="onClickMax(selectedAssetViewData.available)">
           Max
         </Button>
       </template>
@@ -62,10 +62,10 @@ import {first, isEmpty} from 'lodash';
 import SelectAssetsModal from './SelectAssetsModal.vue';
 import {useAsset} from '@/application/asset';
 
-interface AssetSelectionView {
+export interface AssetSelectionView {
   icon: string;
   symbol: string;
-  avaiable: number;
+  available: number;
   quote: number;
   quoteSymbol: string;
 }
@@ -100,7 +100,7 @@ export default defineComponent({
         return acc.concat({
           icon,
           symbol: cur,
-          avaiable: amount,
+          available: amount,
           quote,
           quoteSymbol,
         });
@@ -113,7 +113,7 @@ export default defineComponent({
       () =>
         assetSelectionViewData.value.find(
           s => s.symbol === selectedAsset.value
-        ) || {icon: ''}
+        ) || {icon: '', available: 0, symbol: '', quote: 0, quoteSymbol: 0}
     );
     const toAddress = ref<string>('');
 
@@ -126,7 +126,7 @@ export default defineComponent({
     const onSelectAsset = (symbol: string) => {
       amount.value = 0;
       selectedAsset.value = symbol;
-    }
+    };
 
     return {
       walletAddress,
