@@ -28,7 +28,7 @@ import {ref, defineComponent, computed} from 'vue';
 export default defineComponent({
   name: 'Loading',
   props: {
-    size: {type: Number, required: true},
+    size: {type: String, required: true},
     color: {type: String, required: false},
   },
   setup: props => {

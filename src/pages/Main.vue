@@ -8,60 +8,46 @@
       </Button>
       <Button @click="signOut" icon="person-fill"></Button>
     </div>
-    <div
-      v-if="loadingAsset"
-      class="flex flex-col items-center justify-center mt-5"
-    >
-      <Loading size="15"></Loading>
-      <div class="mt-3">Loading Wallet</div>
+    <Card primary class="mb-10">
+      <div class="px-5 relative">
+        <div class="flex justify-between">
+          <div class="flex space-x-2">
+            <div class="font-medium">My Wallet</div>
+            <div class="opacity-70">({{ walletAddr }})</div>
+          </div>
+          <Icon name="copy" size="16px"></Icon>
+        </div>
+        <hr class="mt-3 mb-4 opacity-50" />
+        <div class="text-4xl font-semibold mb-2">
+          {{ `${$h.formatAmount(totalAsset.amount)} ${totalAsset.symbol}` }}
+        </div>
+        <div class="text-lg font-medium opacity-70">
+          {{ `${$h.formatAmount(totalAsset.quote)} ${totalAsset.quoteSymbol}` }}
+        </div>
+        <img
+          src="/src/assets/ronin-white.svg"
+          alt=""
+          class="absolute bottom-0 right-5 w-13"
+        />
+      </div>
+    </Card>
+    <div class="mb-5 flex justify-center">
+      <div class="flex space-x-5">
+        <Button large-icon="credit-card-fill" disabled></Button>
+        <Button @click="$router.push('/send')" large-icon="plane-fill"></Button>
+        <Button large-icon="repeat" disabled></Button>
+      </div>
     </div>
-    <template v-else>
-      <Card primary class="mb-10">
-        <div class="px-5 relative">
-          <div class="flex justify-between">
-            <div class="flex space-x-2">
-              <div class="font-medium">My Wallet</div>
-              <div class="opacity-70">({{ walletAddr }})</div>
-            </div>
-            <Icon name="copy" size="16px"></Icon>
-          </div>
-          <hr class="mt-3 mb-4 opacity-50" />
-          <div class="text-4xl font-semibold mb-2">
-            {{ `${$h.formatAmount(totalAsset.amount)} ${totalAsset.symbol}` }}
-          </div>
-          <div class="text-lg font-medium opacity-70">
-            {{
-              `${$h.formatAmount(totalAsset.quote)} ${totalAsset.quoteSymbol}`
-            }}
-          </div>
-          <img
-            src="/src/assets/ronin-white.svg"
-            alt=""
-            class="absolute bottom-0 right-5 w-13"
-          />
-        </div>
-      </Card>
-      <div class="mb-5 flex justify-center">
-        <div class="flex space-x-5">
-          <Button large-icon="credit-card-fill" disabled></Button>
-          <Button
-            @click="$router.push('/send')"
-            large-icon="plane-fill"
-          ></Button>
-          <Button large-icon="repeat" disabled></Button>
-        </div>
-      </div>
-      <div class="font-medium text-lg px-5">Assets</div>
-      <div class="mt-3 flex flex-col space-y-2">
-        <ListItem
-          v-for="(data, index) in listViewData"
-          :key="`asset-${index}`"
-          :prepend-icon="data.icon"
-          :title="`${$h.formatAmount(data.amount)} ${data.symbol}`"
-          :subtitle="`${$h.formatAmount(data.quoteAmount)} ${data.quoteSymbol}`"
-        ></ListItem>
-      </div>
-    </template>
+    <div class="font-medium text-lg px-5">Assets</div>
+    <div class="mt-3 flex flex-col space-y-2">
+      <ListItem
+        v-for="(data, index) in listViewData"
+        :key="`asset-${index}`"
+        :prepend-icon="data.icon"
+        :title="`${$h.formatAmount(data.amount)} ${data.symbol}`"
+        :subtitle="`${$h.formatAmount(data.quoteAmount)} ${data.quoteSymbol}`"
+      ></ListItem>
+    </div>
   </Container>
 </template>
 
@@ -91,11 +77,6 @@ export default defineComponent({
       await auth.signOut();
       router.push('/unlock');
     };
-
-    onMounted(() => {
-      if (asset.loaded.value) return;
-      asset.init();
-    });
 
     const totalAsset = computed(() => {
       const empty = {amount: 0, symbol: '', quote: 0, quoteSymbol: ''};
@@ -143,9 +124,7 @@ export default defineComponent({
     });
 
     return {
-      authLoading: auth.loading,
       signOut,
-      loadingAsset: asset.loading,
       totalAsset,
       listViewData,
       walletAddr,

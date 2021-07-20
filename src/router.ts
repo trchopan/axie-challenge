@@ -6,6 +6,7 @@ import {
 import {RouteRecordRaw} from 'vue-router';
 import Unlock from './pages/Unlock.vue';
 import Main from './pages/Main.vue';
+import SendAsset from './pages/SendAsset/index.vue';
 import TryComponents from './pages/TryComponents.vue';
 import {User} from './domain';
 import {authRepo} from './repository';
@@ -16,6 +17,7 @@ const routes: RouteRecordRaw[] = [
   //
   {path: '/', component: Main, meta: {requireAuth: true}},
   {path: '/unlock', component: Unlock},
+  {path: '/send', component: SendAsset},
   {path: '/:notFound(.*)', redirect: '/'},
 ];
 

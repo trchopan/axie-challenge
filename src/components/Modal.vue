@@ -2,7 +2,7 @@
   <transition name="fade">
     <div v-if="modelValue" class="modal-mask">
       <div class="modal-wrapper">
-        <div class="modal-container" :style="{maxWidth}">
+        <div class="modal-container px-5 w-screen" :style="{maxWidth}">
           <slot></slot>
         </div>
       </div>
