@@ -26,7 +26,12 @@
       <Icon v-if="largeIcon" :name="largeIcon" size="32px" />
     </div>
     <template v-else>
-      <Loading v-if="loading" :color="primary ? 'white' : 'blue'" />
+      <Loading
+        v-if="loading"
+        :color="primary ? 'white' : 'blue'"
+        size="15"
+        class="-m-l-1 mr-3"
+      />
       <span
         class="flex items-center transition duration-150 ease-in-out"
         :class="{
@@ -60,7 +65,7 @@ export default defineComponent({
     const clickable = computed(() => isFunction(attrs.onClick));
 
     const onClick = async () => {
-      if (!clickable.value) return;
+      if (!clickable.value || props.disabled) return;
       clicky.value = true;
       setTimeout(() => (clicky.value = false), 100);
     };
