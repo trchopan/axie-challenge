@@ -1,4 +1,4 @@
-import {InjectionKey, provide, inject, ref} from 'vue';
+import {InjectionKey, inject, ref} from 'vue';
 import {authRepo} from '@/repository';
 import {Errors} from '@/domain';
 import {asyncAction} from '@/application/common';
@@ -20,7 +20,4 @@ const auth = {
 };
 
 const key: InjectionKey<typeof auth> = Symbol();
-
-export const provideAuth = () => provide<typeof auth>(key, auth);
-
 export const useAuth = () => inject(key, auth);
