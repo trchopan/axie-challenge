@@ -26,16 +26,16 @@
       @click="showAssetSelection = true"
     >
       <template #prepend>
-        <Icon :name="selectedAssetViewData.icon" />
+        <Icon :src="selectedAssetViewData.icon" />
       </template>
       <template #append>
-        <Icon name="stack" />
+        <Icon src="stack" />
       </template>
     </TextInput>
     <SelectAssetsModal
       v-model="showAssetSelection"
       :assets="assetSelectionViewData"
-      @select="selectedAsset = $event"
+      @select="onSelectAsset"
     />
     <TextInput
       v-model="amount"
@@ -44,7 +44,9 @@
       type="text"
     >
       <template #append>
-        <Button small @click="onClickMax">Max</Button>
+        <Button small @click="onClickMax(selectedAssetViewData.avaiable)">
+          Max
+        </Button>
       </template>
     </TextInput>
   </Container>
@@ -121,6 +123,11 @@ export default defineComponent({
       amount.value = maxAmount;
     };
 
+    const onSelectAsset = (symbol: string) => {
+      amount.value = 0;
+      selectedAsset.value = symbol;
+    }
+
     return {
       walletAddress,
       showAssetSelection,
@@ -130,6 +137,7 @@ export default defineComponent({
       selectedAssetViewData,
       amount,
       onClickMax,
+      onSelectAsset,
     };
   },
 });

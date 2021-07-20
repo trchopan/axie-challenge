@@ -34,10 +34,10 @@
       label="ASSET"
     >
       <template #prepend>
-        <Icon name="euro" />
+        <Icon src="euro" />
       </template>
       <template #append>
-        <Icon name="stack" />
+        <Icon src="stack" />
       </template>
     </TextInput>
     <TextInput v-model="inputText" label="I'm Disabled" type="Text" disabled>
@@ -46,10 +46,10 @@
     <div class="row">
       <TextInput model-value="EUR" type="Text" inline label="With Icon">
         <template #prepend>
-          <Icon name="euro" />
+          <Icon src="euro" />
         </template>
         <template #append>
-          <Icon name="stack" />
+          <Icon src="stack" />
         </template>
       </TextInput>
       <TextInput
@@ -61,22 +61,23 @@
         readonly
       >
         <template #append>
-          <Icon name="eye" />
+          <Icon src="eye" />
         </template>
       </TextInput>
     </div>
     <div>
-      <Icon name="eye" size="50px" />
-      <Icon name="person-fill" />
-      <Icon name="plane-fill" />
-      <Icon name="repeat" />
+      <Icon src="https://www.gemini.com/images/currencies/icons/default/1inch.svg" size="50px" />
+      <Icon src="eye" size="50px" />
+      <Icon src="person-fill" />
+      <Icon src="plane-fill" />
+      <Icon src="repeat" />
     </div>
     <div class="flex">
       <Button @click="onClickButton" large-icon="credit-card-fill"> </Button>
       <Button icon="person-fill"></Button>
       <Button primary @click="onClickButton">Primary</Button>
       <Button>
-        <Icon name="circle-fill" size="8px" left />
+        <Icon src="circle-fill" size="8px" left />
         Ronin Wallet
       </Button>
       <Button>Cancel</Button>

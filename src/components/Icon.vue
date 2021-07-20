@@ -8,7 +8,7 @@ import {ref, defineComponent, computed} from 'vue';
 export default defineComponent({
   name: 'Icon',
   props: {
-    name: {type: String, required: true},
+    src: {type: String, required: true},
     size: {type: [String, Number], required: false},
     left: {type: Boolean, required: false},
   },
@@ -28,10 +28,12 @@ export default defineComponent({
       usd: 'usd.png',
       yen: 'yen.png',
     } as {[key: string]: string};
-    const imgSrc = computed(() => new URL(
-      `../assets/icons/${iconMap[props.name]}`,
-      import.meta.url
-    ).href);
+    const imgSrc = computed(() => {
+      const icon = iconMap[props.src];
+      return icon
+        ? new URL(`../assets/icons/${icon}`, import.meta.url).href
+        : props.src;
+    });
 
     const size = props.size || '24px';
     const style = {

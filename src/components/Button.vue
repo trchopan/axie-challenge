@@ -22,8 +22,8 @@
         'transform scale-125': clicky,
       }"
     >
-      <Icon v-if="icon" :name="icon" size="24px" />
-      <Icon v-if="largeIcon" :name="largeIcon" size="32px" />
+      <Icon v-if="icon" :src="icon" size="24px" />
+      <Icon v-if="largeIcon" :src="largeIcon" size="32px" />
     </div>
     <template v-else>
       <Loading

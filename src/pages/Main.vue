@@ -3,7 +3,7 @@
   <Container class="px-5 py-5">
     <div class="mb-10 flex justify-between">
       <Button>
-        <Icon name="circle-fill" size="8px" left />
+        <Icon src="circle-fill" size="8px" left />
         Ronin Wallet
       </Button>
       <Button @click="signOut" icon="person-fill"></Button>
@@ -15,7 +15,7 @@
             <div class="font-medium">My Wallet</div>
             <div class="opacity-70">({{ walletAddr }})</div>
           </div>
-          <Icon name="copy" size="16px"></Icon>
+          <Icon src="copy" size="16px"></Icon>
         </div>
         <hr class="mt-3 mb-4 opacity-50" />
         <div class="text-4xl font-semibold mb-2">

@@ -10,7 +10,7 @@
   >
     <div class="list-item-wrapper">
       <div v-if="prependIcon" class="list-item-icon">
-        <Icon :name="prependIcon" size="32px" />
+        <Icon :src="prependIcon" size="32px" />
       </div>
       <div class="list-item-body">
         <slot>
@@ -21,7 +21,7 @@
         </slot>
       </div>
       <div v-if="appendIcon" class="list-item-icon">
-        <Icon :name="appendIcon" size="32px" />
+        <Icon :src="appendIcon" size="32px" />
       </div>
     </div>
   </div>
