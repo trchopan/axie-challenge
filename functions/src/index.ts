@@ -4,6 +4,7 @@ import express, {Request, Response, NextFunction} from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import {Errors, ErrorCode} from './errors';
+import {merge} from 'lodash';
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -78,15 +79,63 @@ app.get(
   withErrorHandler(async (req, res) => {
     const {uid} = res.locals.currentUser;
     const docs = await db.collection('Wallets').listDocuments();
-    res.status(200).json(docs.map(d => d.id).filter(addr => addr != uid));
+    res.status(200).json(docs.map(d => d.id).filter(addr => addr !== uid));
   })
 );
 
-// app.post('/transaction', baseAuth, (req, res) => {
-//   const {uid} = res.locals.currentUser;
-//   const {toAddr, amount, symbol} = req.body;
-//
-//   db.ref(`${uid}/wallet`);
-// });
+app.post(
+  '/transaction',
+  baseAuth,
+  withErrorHandler(async (req, res) => {
+    const {uid} = res.locals.currentUser;
+    const {recipientAddr, amount: amount_, symbol} = req.body;
+    const amount = parseFloat(amount_)
+
+    const result = await db.runTransaction(async t => {
+      const recipientRef = db.doc(`Wallets/${recipientAddr}`);
+      const recipientDoc = await t.get(recipientRef);
+
+      const senderRef = db.doc(`Wallets/${uid}`);
+      const senderDoc = await t.get(senderRef);
+
+      const sender = senderDoc.data();
+      if (!sender?.assets?.data)
+        throw new Errors(ErrorCode.Internal, 'corrupted sender data');
+
+      const remainAmount = (sender.assets.data[symbol] || 0) - amount;
+      if (remainAmount < 0) {
+        throw new Errors(
+          ErrorCode.BadRequest,
+          `user does not have enough ${symbol}`
+        );
+      }
+
+      const recipient = recipientDoc.data();
+      if (!recipient?.assets?.data)
+        throw new Errors(ErrorCode.Internal, 'corrupted recipient data');
+      if (!recipient.assets.keys.includes(symbol))
+        recipient.assets.keys.push(symbol);
+      const recipientAmount = (recipient.assets.data[symbol] || 0) + amount;
+
+      const newSender = merge(
+        {},
+        sender,
+        {assets: {data: {[symbol]: remainAmount}}},
+      );
+      t.update(senderRef, newSender);
+      const newRecipient = merge(
+        {},
+        recipient,
+        {assets: {data: {[symbol]: recipientAmount}}},
+      );
+      t.update(recipientRef, newRecipient);
+      return {
+        newSender,
+        newRecipient,
+      };
+    });
+    res.status(200).json(result);
+  })
+);
 
 export const api = functions.https.onRequest(app);
