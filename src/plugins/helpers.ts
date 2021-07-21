@@ -1,7 +1,7 @@
 import {isEmpty} from 'lodash';
 import {Plugin} from 'vue';
 
-const helpers = {
+export const helpers = {
   isEmpty,
   copyToClipboard(data: string) {
     const tempInput = document.createElement('input');

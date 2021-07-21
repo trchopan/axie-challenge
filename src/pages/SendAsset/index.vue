@@ -17,7 +17,12 @@
         <div class="font-medium whitespace-no-wrap">My Wallet</div>
       </template>
     </TextInput>
-    <TextInput v-model="toAddress" label="TO" type="text"></TextInput>
+    <TextInput
+      v-model="toAddress"
+      :options="allWallets"
+      label="TO"
+      type="text"
+    ></TextInput>
     <TextInput
       v-model="selectedAsset"
       type="text"
@@ -86,9 +91,9 @@ export default defineComponent({
 
     const showAssetSelection = ref<boolean>(false);
     const assetSelectionViewData = computed(() => {
-      if (!asset.infos.value || !asset.amount.value) return [];
+      if (!asset.infos.value || !asset.wallet.value) return [];
 
-      const amountData = asset.amount.value;
+      const amountData = asset.wallet.value.assets;
       if (isEmpty(amountData?.keys)) return [];
 
       const infos = asset.infos.value;
@@ -138,6 +143,7 @@ export default defineComponent({
       amount,
       onClickMax,
       onSelectAsset,
+      allWallets: asset.allWallets.value,
     };
   },
 });

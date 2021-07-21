@@ -5,3 +5,5 @@ dist-ssr
 *.local
 
 .firebase
+functions/firebase-debug.log
+functions/ui-debug.log

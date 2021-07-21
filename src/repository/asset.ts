@@ -1,4 +1,6 @@
-import {AssetAmount, AssetInfoMap} from '@/domain/asset';
+import firebase from 'firebase/app';
+import {AssetInfoMap, Wallet, WalletAddr} from '@/domain/asset';
+import {AxiosInstance} from 'axios';
 
 // TODO: Mock object to be kept else where
 const mockAssetInfoMap: AssetInfoMap = {
@@ -7,31 +9,32 @@ const mockAssetInfoMap: AssetInfoMap = {
   YEN: {icon: 'yen', quote: {VND: 210.15}},
 };
 
-const mockAssetAmounts: Entities<AssetAmount> = {
-  keys: ['USD', 'EUR', 'YEN'],
-  data: {USD: 1000, EUR: 50, YEN: 10000},
-};
-
-const mockWalletInfo = {
-  addr: '7300377738883334',
-};
-
 export class AssetRepository {
-  constructor() {}
+  constructor(
+    private db: firebase.firestore.Firestore,
+    private api: AxiosInstance
+  ) {}
 
-  async getWalletInfo() {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return mockWalletInfo;
+  _snapWalletInfo: Maybe<Function> = null;
+
+  async getAllWallets() {
+    const {data} = await this.api.get('/all-wallets');
+    return data as WalletAddr[];
+  }
+
+  bindWalletInfo(uid: string, onData: (doc: Maybe<Wallet>) => void) {
+    if (this._snapWalletInfo) this._snapWalletInfo();
+    this._snapWalletInfo = this.db.doc(`Wallets/${uid}`).onSnapshot(doc => {
+      if (!doc.exists) {
+        onData(null);
+        return;
+      }
+      onData(doc.data() as Maybe<Wallet>);
+    });
   }
 
   async getAssetInfos() {
     await new Promise(resolve => setTimeout(resolve, 1000));
     return mockAssetInfoMap;
-  }
-
-  async getAssetAmounts() {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    // return {keys: [], data: {}};
-    return mockAssetAmounts;
   }
 }

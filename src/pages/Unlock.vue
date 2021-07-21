@@ -13,7 +13,11 @@
         :disabled="authLoading"
       >
         <template #append>
-          <Icon src="eye" @click="showPassword = !showPassword" />
+          <Icon
+            src="eye"
+            @click="showPassword = !showPassword"
+            :class="{'opacity-50': !showPassword}"
+          />
         </template>
       </TextInput>
       <div class="flex justify-center">
@@ -31,10 +35,16 @@
       {{ authError.code }}
     </div>
   </Container>
+  <div class="fixed bottom-0">
+    <TextInput v-model="email" :options="emailOptions"></TextInput>
+    <div class="text-gray-400">Password: `abcxyz123`</div>
+  </div>
 </template>
 
 <script lang="ts">
+import {useAsset} from '@/application/asset';
 import {useAuth} from '@/application/auth';
+import {first} from 'lodash';
 import {ref, defineComponent} from 'vue';
 import {useRouter} from 'vue-router';
 
@@ -43,6 +53,9 @@ export default defineComponent({
   setup: () => {
     const router = useRouter();
     const auth = useAuth();
+    const asset = useAsset();
+    const emailOptions = ['abcxyz@gmail.com', 'abcxyz2@gmail.com'];
+    const email = ref<string>(first(emailOptions)!);
     const password = ref<string>('');
     const showPassword = ref<boolean>(false);
 
@@ -52,10 +65,12 @@ export default defineComponent({
 
     const signIn = async () => {
       const user = await auth.signInEmail({
-        email: 'abcxyz@gmail.com',
+        email: email.value,
         password: password.value,
       });
       if (user) {
+        await asset.bindWalletInfo(user.uid);
+        await asset.getAllWallets();
         router.replace('/home');
       }
     };
@@ -63,6 +78,8 @@ export default defineComponent({
     return {
       authError: auth.error,
       authLoading: auth.loading,
+      emailOptions,
+      email,
       password,
       showPassword,
       signIn,

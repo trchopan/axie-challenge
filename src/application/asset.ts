@@ -1,5 +1,5 @@
 import {Errors} from '@/domain';
-import {AssetAmount, AssetInfoMap, Wallet} from '@/domain/asset';
+import {AssetInfoMap, Wallet, WalletAddr} from '@/domain/asset';
 import {assetRepo} from '@/repository';
 import {InjectionKey, inject, ref} from 'vue';
 import {asyncAction} from './common';
@@ -9,16 +9,26 @@ const app = {
   error: ref<Maybe<Errors>>(null),
   loaded: ref<boolean>(false),
   selectedSymbol: ref<string>(),
-  async init() {
+  async init(uid: string) {
     await this.getAssetInfos();
-    await this.getAssetAmounts();
-    await this.getWalletInfo();
+    await this.bindWalletInfo(uid);
     this.loaded.value = true;
   },
   wallet: ref<Maybe<Wallet>>(null),
-  getWalletInfo() {
+  bindWalletInfo(uid: string) {
     return asyncAction(this.loading, this.error, async () => {
-      this.wallet.value = await assetRepo.getWalletInfo();
+      await new Promise<void>(resolve =>
+        assetRepo.bindWalletInfo(uid, data => {
+          this.wallet.value = data;
+          resolve();
+        })
+      );
+    });
+  },
+  allWallets: ref<Maybe<WalletAddr[]>>(null),
+  getAllWallets() {
+    return asyncAction(this.loading, this.error, async () => {
+      this.allWallets.value = await assetRepo.getAllWallets();
     });
   },
   quoteSymbol: ref<string>('VND'), // TODO: Implement dynamic select Quote
@@ -26,12 +36,6 @@ const app = {
   getAssetInfos() {
     return asyncAction(this.loading, this.error, async () => {
       this.infos.value = await assetRepo.getAssetInfos();
-    });
-  },
-  amount: ref<Maybe<Entities<AssetAmount>>>(),
-  getAssetAmounts() {
-    return asyncAction(this.loading, this.error, async () => {
-      this.amount.value = await assetRepo.getAssetAmounts();
     });
   },
 };

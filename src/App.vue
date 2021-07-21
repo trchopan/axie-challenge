@@ -6,16 +6,23 @@
 </template>
 
 <script lang="ts">
+import {isEmpty} from 'lodash';
 import {defineComponent, onMounted} from 'vue';
 import {useAsset} from './application/asset';
+import {useAuth} from './application/auth';
 
 export default defineComponent({
   name: 'App',
   setup: () => {
+    const auth = useAuth();
     const asset = useAsset();
-    onMounted(() => {
-      if (asset.loaded.value) return;
-      asset.init();
+    onMounted(async () => {
+      if (isEmpty(asset.infos.value)) asset.getAssetInfos();
+      const user = auth.getUser();
+      if (user) {
+        await asset.bindWalletInfo(user.uid);
+        await asset.getAllWallets();
+      }
     });
 
     return {

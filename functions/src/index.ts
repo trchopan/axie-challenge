@@ -6,7 +6,7 @@ import cors from 'cors';
 import {Errors, ErrorCode} from './errors';
 
 admin.initializeApp();
-const db = admin.database();
+const db = admin.firestore();
 const auth = admin.auth();
 
 const app = express();
@@ -62,11 +62,31 @@ const baseAuth = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-app.post('/transaction', baseAuth, (req, res) => {
-  const {uid} = res.locals.currentUser;
-  const {toAddr, amount, symbol} = req.body;
+const withErrorHandler = (
+  fn: (r: Request, p: Response) => Promise<void>
+) => async (req: Request, res: Response) => {
+  try {
+    await fn(req, res);
+  } catch (err) {
+    handleErrors(res, err);
+  }
+};
 
-  db.ref(`${uid}/wallet`);
-});
+app.get(
+  '/all-wallets',
+  baseAuth,
+  withErrorHandler(async (req, res) => {
+    const {uid} = res.locals.currentUser;
+    const docs = await db.collection('Wallets').listDocuments();
+    res.status(200).json(docs.map(d => d.id).filter(addr => addr != uid));
+  })
+);
+
+// app.post('/transaction', baseAuth, (req, res) => {
+//   const {uid} = res.locals.currentUser;
+//   const {toAddr, amount, symbol} = req.body;
+//
+//   db.ref(`${uid}/wallet`);
+// });
 
 export const api = functions.https.onRequest(app);
