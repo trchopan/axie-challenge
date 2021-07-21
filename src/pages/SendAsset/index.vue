@@ -18,7 +18,7 @@
       </template>
     </TextInput>
     <TextInput
-      v-model="toAddress"
+      v-model="recipientAddr"
       :options="allWallets"
       label="TO"
       type="text"
@@ -43,7 +43,7 @@
       @select="onSelectAsset"
     />
     <TextInput
-      v-model="amount"
+      v-model.number="amount"
       label="AMOUNT"
       :right-label="`AVAILABLE: ${selectedAssetViewData.available}`"
       type="text"
@@ -55,10 +55,41 @@
       </template>
     </TextInput>
   </Container>
-  <div class="fixed bottom-0 left-0 right-0 flex space-x-5 px-5 pb-5">
+  <div
+    class="fixed bottom-0 left-0 right-0 flex space-x-5 px-5 pb-5 max-w-xl mx-auto"
+  >
     <Button class="flex-1">Cancel</Button>
-    <Button class="flex-1" primary>Send</Button>
+    <Button @click="onSendAsset" class="flex-1" primary>Send</Button>
   </div>
+  <Modal v-model="showTransactionModal">
+    <Card class="w-full px-5">
+      <div v-if="loadingTransaction" class="flex justify-center">
+        <Loading></Loading>
+      </div>
+      <Container v-else class="w-full px-5">
+        <template v-if="errorTransaction">{{ errorTransaction }}</template>
+        <template v-else>
+          <div class="flex justify-center font-medium text-xl mb-5">
+            Successfully sent
+          </div>
+          <div>
+            Your <b>{{ selectedAsset }}</b> has been sent!<br />
+            Thank you for using our service
+          </div>
+        </template>
+        <div class="flex">
+          <Button
+            class="mt-5 flex-1"
+            primary
+            block
+            @click="showTransactionModal = false"
+          >
+            OK
+          </Button>
+        </div>
+      </Container>
+    </Card>
+  </Modal>
 </template>
 
 <script lang="ts">
@@ -66,6 +97,7 @@ import {ref, defineComponent, computed} from 'vue';
 import {first, isEmpty} from 'lodash';
 import SelectAssetsModal from './SelectAssetsModal.vue';
 import {useAsset} from '@/application/asset';
+import {useTransaction} from '@/application/transaction';
 
 export interface AssetSelectionView {
   icon: string;
@@ -82,6 +114,7 @@ export default defineComponent({
   },
   setup: (_, attrs) => {
     const asset = useAsset();
+    const transaciton = useTransaction();
 
     const walletAddress = computed(() => {
       const wallet = asset.wallet.value;
@@ -120,7 +153,7 @@ export default defineComponent({
           s => s.symbol === selectedAsset.value
         ) || {icon: '', available: 0, symbol: '', quote: 0, quoteSymbol: 0}
     );
-    const toAddress = ref<string>('');
+    const recipientAddr = ref<string>('');
 
     const amount = ref<number>(0);
 
@@ -133,10 +166,22 @@ export default defineComponent({
       selectedAsset.value = symbol;
     };
 
+    const showTransactionModal = ref<boolean>(false);
+
+    const onSendAsset = async () => {
+      showTransactionModal.value = true;
+      await transaciton.sendAsset({
+        recipientAddr: recipientAddr.value,
+        amount: amount.value,
+        symbol: selectedAsset.value,
+      });
+      amount.value = 0;
+    };
+
     return {
       walletAddress,
       showAssetSelection,
-      toAddress,
+      recipientAddr,
       assetSelectionViewData,
       selectedAsset,
       selectedAssetViewData,
@@ -144,6 +189,10 @@ export default defineComponent({
       onClickMax,
       onSelectAsset,
       allWallets: asset.allWallets.value,
+      showTransactionModal,
+      onSendAsset,
+      errorTransaction: transaciton.error,
+      loadingTransaction: transaciton.loading,
     };
   },
 });

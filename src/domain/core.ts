@@ -2,6 +2,6 @@ export class Errors {
   constructor(
     //
     public code: string,
-    public detail: string = ''
+    public message: string = ''
   ) {}
 }

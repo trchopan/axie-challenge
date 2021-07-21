@@ -1,5 +1,7 @@
 import {Ref} from 'vue';
 import {Errors} from '@/domain/core';
+import {isEmpty} from 'lodash';
+import {AxiosError} from 'axios';
 
 export const asyncAction = async <R>(
   loading: Ref<boolean>,
@@ -12,14 +14,20 @@ export const asyncAction = async <R>(
   try {
     return await callback();
   } catch (err) {
-    console.error(err);
+    console.error(err, err.response);
 
     if (err.constructor.name === 'Errors') {
       error.value = err;
       return null;
     }
 
-    error.value = new Errors('internal-error');
+    if (!isEmpty((err as AxiosError).response)) {
+      const {status, data} = err.response;
+      error.value = new Errors(status, data?.message || data?.error || '');
+      return null;
+    }
+
+    error.value = new Errors('internal-error', String(err));
     return null;
   } finally {
     loading.value = false;

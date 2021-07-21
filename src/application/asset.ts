@@ -7,13 +7,8 @@ import {asyncAction} from './common';
 const app = {
   loading: ref<boolean>(false),
   error: ref<Maybe<Errors>>(null),
-  loaded: ref<boolean>(false),
+  quoteSymbol: ref<string>('VND'), // TODO: Implement dynamic select Quote
   selectedSymbol: ref<string>(),
-  async init(uid: string) {
-    await this.getAssetInfos();
-    await this.bindWalletInfo(uid);
-    this.loaded.value = true;
-  },
   wallet: ref<Maybe<Wallet>>(null),
   bindWalletInfo(uid: string) {
     return asyncAction(this.loading, this.error, async () => {
@@ -31,7 +26,6 @@ const app = {
       this.allWallets.value = await assetRepo.getAllWallets();
     });
   },
-  quoteSymbol: ref<string>('VND'), // TODO: Implement dynamic select Quote
   infos: ref<Maybe<AssetInfoMap>>(null),
   getAssetInfos() {
     return asyncAction(this.loading, this.error, async () => {
