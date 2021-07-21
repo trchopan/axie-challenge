@@ -11,10 +11,9 @@ const authMiddleware = async (
 };
 
 export const api = axios.create({
-  baseURL:
-    import.meta.env.NODE_ENV !== 'production'
-      ? 'http://localhost:5001/hermes-7b876/us-central1/api'
-      : 'https://us-central1-hermes-7b876.cloudfunctions.net/api',
+  baseURL: import.meta.env.DEV
+    ? 'http://localhost:5001/hermes-7b876/us-central1/api'
+    : 'https://us-central1-hermes-7b876.cloudfunctions.net/api',
 });
 
 api.interceptors.request.use(authMiddleware);

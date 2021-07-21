@@ -96,8 +96,10 @@ app.post(
     const {recipientAddr, amount: amount_, symbol} = req.body;
     const amount = parseFloat(amount_);
 
-    if (!recipientAddr) throw new Errors(ErrorCode.BadRequest, 'recipientAddr must not be empty');
-    if (amount <= 0) throw new Errors(ErrorCode.BadRequest, 'amount must greater than 0');
+    if (!recipientAddr)
+      throw new Errors(ErrorCode.BadRequest, 'recipientAddr must not be empty');
+    if (amount <= 0)
+      throw new Errors(ErrorCode.BadRequest, 'amount must greater than 0');
 
     const result = await db.runTransaction(async t => {
       const recipientRef = db.doc(`Wallets/${recipientAddr}`);

@@ -11,8 +11,6 @@ import TryComponents from './pages/TryComponents.vue';
 import {User} from './domain';
 import {authRepo} from './repository';
 
-const isDev = import.meta.env.NODE_ENV !== 'production';
-
 const routes: RouteRecordRaw[] = [
   //
   {path: '/', component: Main, meta: {requireAuth: true}},
@@ -27,7 +25,7 @@ const devRoutes: RouteRecordRaw[] = [
 
 const router = _createRouter({
   history: createWebHistory(),
-  routes: (isDev ? devRoutes : []).concat(routes),
+  routes: (import.meta.env.DEV ? devRoutes : []).concat(routes),
 });
 
 const routeMetaMatch = (records: RouteRecordNormalized[]) => (key: string) =>
@@ -46,7 +44,6 @@ export const createRouter = async () => {
   router.beforeEach((to, from, next) => {
     const routeToMatch = routeMetaMatch(to.matched);
     if (routeToMatch('requireAuth') && !user) {
-      console.log('woo requireAuth');
       next('/unlock');
       return;
     }
