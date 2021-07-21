@@ -13,7 +13,7 @@
         :disabled="authLoading"
       >
         <template #append>
-          <Icon name="eye" @click="showPassword = !showPassword" />
+          <Icon src="eye" @click="showPassword = !showPassword" />
         </template>
       </TextInput>
       <div class="flex justify-center">
