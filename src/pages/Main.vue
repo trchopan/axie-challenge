@@ -1,5 +1,5 @@
 <template>
-  <div class="top-section absolute h-96 w-screen max-w-md"></div>
+  <div class="top-section absolute h-96 w-screen"></div>
   <Container class="px-5 py-5">
     <div class="mb-10 flex justify-between">
       <Button>
