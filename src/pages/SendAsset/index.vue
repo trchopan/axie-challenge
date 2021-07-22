@@ -61,41 +61,17 @@
     <Button class="flex-1">Cancel</Button>
     <Button @click="onSendAsset" class="flex-1" primary>Send</Button>
   </div>
-  <Modal v-model="showTransactionModal">
-    <Card class="w-full px-5">
-      <div v-if="loadingTransaction" class="flex justify-center">
-        <Loading></Loading>
-      </div>
-      <Container v-else class="w-full px-5">
-        <template v-if="errorTransaction">{{ errorTransaction }}</template>
-        <template v-else>
-          <div class="flex justify-center font-medium text-xl mb-5">
-            Successfully sent
-          </div>
-          <div>
-            Your <b>{{ selectedAsset }}</b> has been sent!<br />
-            Thank you for using our service
-          </div>
-        </template>
-        <div class="flex">
-          <Button
-            class="mt-5 flex-1"
-            primary
-            block
-            @click="showTransactionModal = false"
-          >
-            OK
-          </Button>
-        </div>
-      </Container>
-    </Card>
-  </Modal>
+  <TransactionProcessModal
+    v-model="showTransactionModal"
+    :selected-asset="selectedAsset"
+  ></TransactionProcessModal>
 </template>
 
 <script lang="ts">
 import {ref, defineComponent, computed} from 'vue';
 import {first, isEmpty} from 'lodash';
 import SelectAssetsModal from './SelectAssetsModal.vue';
+import TransactionProcessModal from './TransactionProcessModal.vue';
 import {useAsset} from '@/application/asset';
 import {useTransaction} from '@/application/transaction';
 
@@ -111,6 +87,7 @@ export default defineComponent({
   name: 'SendAsset',
   components: {
     SelectAssetsModal,
+    TransactionProcessModal,
   },
   setup: (_, attrs) => {
     const asset = useAsset();
@@ -191,8 +168,6 @@ export default defineComponent({
       allWallets: asset.allWallets.value,
       showTransactionModal,
       onSendAsset,
-      errorTransaction: transaciton.error,
-      loadingTransaction: transaciton.loading,
     };
   },
 });
