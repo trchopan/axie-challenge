@@ -58,7 +58,7 @@
   <div
     class="fixed bottom-0 left-0 right-0 flex space-x-5 px-5 pb-5 max-w-xl mx-auto"
   >
-    <Button class="flex-1">Cancel</Button>
+    <Button @click="$router.push('/')" class="flex-1">Cancel</Button>
     <Button @click="onSendAsset" class="flex-1" primary>Send</Button>
   </div>
   <TransactionProcessModal
